@@ -15,17 +15,12 @@ jobs:
           key: dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
-            - ./.next/cache
       - run:
           name: Next Build
           command: yarn build
-      - save_cache:
-          key: next-out-cache-{{ .Branch }}
-          paths:
-            - ./out
       - run:
           name: Deploy to Netlify
-          command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=out
+          command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=dist
 workflows:
   version: 2
   build-deploy:
